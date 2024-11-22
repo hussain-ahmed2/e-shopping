@@ -1,6 +1,7 @@
 import AllProducts from "./AllProducts";
 import useProduct from "./useProduct";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { FaSearch, FaTimes } from "react-icons/fa";
 
 function Products() {
   const {
@@ -16,10 +17,14 @@ function Products() {
     categories,
     searchProduct,
   } = useProduct();
+
+  const [searchValue, setSearchValue] = useState("");
+
   function handleClick(index) {
     window.scrollTo(0, 0);
     setPage(index);
   }
+
 
   function handleCategoryChange(e) {
     e.preventDefault();
@@ -28,15 +33,20 @@ function Products() {
     setCurrProducts(
       limitProduct(limit, page, filterProduct("category", e.target.value))
     );
+    handleClick(0);
   }
 
   function handleSearchSubmit(e) {
     e.preventDefault();
-    
-    setAllProducts(searchProduct(e.target.search.value));
-    setCurrProducts(
-      limitProduct(limit, page, searchProduct(e.target.search.value))
-    );
+
+    setAllProducts(searchProduct(searchValue));
+    setCurrProducts(limitProduct(limit, page, searchProduct(searchValue)));
+
+    handleClick(0);
+  }
+
+  function handleSearchInputChange(e) {
+    setSearchValue(e.target.value);
   }
 
   useEffect(() => {
@@ -67,19 +77,45 @@ function Products() {
             </select>
           </div>
           <div className="flex items-center gap-2 capitalize">
-              search by title
-              <form method="POST" onSubmit={handleSearchSubmit}>
-                <input type="text" name="search" id="search" className="border p-1 rounded" />
-              </form>
+            search by title
+            <form
+              method="POST"
+              onSubmit={handleSearchSubmit}
+              className="flex items-center justify-center relative"
+            >
+              <input
+                type="text"
+                name="search"
+                id="search"
+                className="border p-1 rounded text-base"
+                onChange={handleSearchInputChange}
+                value={searchValue}
+              />
+              <FaTimes
+                onClick={() => setSearchValue("")}
+                className={`cursor-pointer absolute right-10 text-base ${ 
+                  searchValue == "" && "hidden"
+                }`}
+              />
+              <button type="submit" className="border p-2 text-base rounded">
+                <FaSearch />
+              </button>
+            </form>
           </div>
         </div>
       </div>
-      <AllProducts products={currProducts} />
-      <div className="flex items-center justify-center gap-4 py-3">
+      {
+        currProducts.length > 0 ? (
+          <AllProducts products={currProducts} />
+        ) : (
+          <h1 className="text-center text-3xl font-bold">No products found</h1>
+        )
+      }
+      <div className="flex items-center justify-center gap-4 py-3 font-semibold">
         <button
           disabled={page == 0}
-          className={`border h-10 w-10 ${
-            page == 0 && "cursor-not-allowed hidden"
+          className={`border h-10 w-10 capitalize ${
+            (page == 0 || allProducts.length == 0) && "hidden"
           } `}
           onClick={() => handleClick(page - 1)}
         >
@@ -101,9 +137,9 @@ function Products() {
           ))}
         <button
           disabled={page == Math.ceil(allProducts.length / limit) - 1}
-          className={`border h-10 w-10 ${
-            page == Math.ceil(allProducts.length / limit) - 1 &&
-            "cursor-not-allowed hidden"
+          className={`border h-10 w-10 capitalize ${
+            (page == Math.ceil(allProducts.length / limit) - 1 || allProducts.length == 0) &&
+            "hidden"
           } `}
           onClick={() => handleClick(page + 1)}
         >

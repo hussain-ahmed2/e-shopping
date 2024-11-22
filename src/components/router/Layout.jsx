@@ -8,7 +8,7 @@ export default function Layout() {
     <>
       <User />
       <Header />
-      <div className="pt-20 mx-auto max-w-screen-xl min-h-[calc(100vh-66px)]">
+      <div className="pt-20 mx-auto max-w-screen-xl min-h-[calc(100vh-66px)] px-4">
         <Outlet />
       </div>
       <Footer />

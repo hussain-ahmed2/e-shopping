@@ -15,16 +15,31 @@ export default function ImageSlider({images, title}) {
     }, [currIndex, images.length]);
     
     return (
-      <div className="border relative h-96 flex max-w-96 mx-auto">
+      <div className="border-2 rounded-md relative h-[500px] flex max-w-[450px] mx-auto w-full">
         {images.map((image, index) => (
-          <div key={`${title + index}`} className="absolute h-full top-0 left-0 w-full p-3">
+          <div key={`${title + index}`} className="absolute h-[450px] top-0 left-0 w-full p-3">
             <img
-              className={`w-full max-w-96 mx-auto h-full object-contain transition-all duration-500 ease-in ${currIndex === index ? 'w-full':'w-0 opacity-0'}`}
+              className={`w-full max-w-[400px] mx-auto h-full object-contain transition-all duration-500 ease-in ${currIndex === index ? 'w-full':'w-0 opacity-0'}`}
               src={image}
               alt={title}
             />
           </div>
         ))}
+        <div className="absolute bottom-1 right-1 w-full text-black text-2xl font-semibold flex h-10  justify-end gap-[2px]">
+          {
+            images.map((image, index) => {
+              return (
+                <img
+                  className={`object-contain h-full w-10 border-2 rounded cursor-pointer ${currIndex === index ? 'border-emerald-500':'bg-white'}`}
+                  key={index}
+                  src={image}
+                  alt={title}
+                  onClick={() => setCurrIndex(index)}
+                />
+              );
+            })
+          }
+        </div>
       </div>
     );
 }
