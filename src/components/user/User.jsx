@@ -6,7 +6,7 @@ import UserContext from "./UserConext"
 function User() {
   const {account, user} = useContext(UserContext);
   return (
-    <div>
+    <div className="z-50">
         {
           user.email ? null : account ? <Login /> : <Signup />
         }

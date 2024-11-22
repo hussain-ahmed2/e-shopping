@@ -7,9 +7,10 @@ import Products from "./components/products/Products";
 import About from "./components/about/About"
 import Product from "./components/products/product/Product";
 import ProductLayout from "./components/products/ProductLayout";
+import Cart from "./components/cart/Cart";
 
 function App() {
-  const [
+  const {
     users,
     setUsers,
     findUser,
@@ -20,7 +21,13 @@ function App() {
     setAccount,
     display,
     setDisplay,
-  ] = useUser();
+    cart,
+    setCart,
+    handleCart,
+    handleCartRemove,
+    handleQuantityIncrement,
+    handleQuantityDecrement
+   } = useUser();
 
   return (
     <UserContext.Provider
@@ -35,6 +42,12 @@ function App() {
         setAccount,
         display,
         setDisplay,
+        cart,
+        setCart,
+        handleCart,
+        handleCartRemove,
+        handleQuantityIncrement,
+        handleQuantityDecrement
       }}
     >
       <BrowserRouter>
@@ -46,6 +59,7 @@ function App() {
               <Route index element={<Products />} />
               <Route path=":productId" element={<Product />} />
             </Route>
+            <Route path="cart" element={<Cart />} />
           </Route>
         </Routes>
       </BrowserRouter>

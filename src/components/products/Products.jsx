@@ -59,12 +59,12 @@ function Products() {
         <h1 className="text-center text-3xl font-bold">All Products</h1>
         <div className="flex items-center justify-center gap-4 flex-wrap pb-4">
           <div className="flex items-center gap-2 capitalize">
-            filter by category
+            <label htmlFor="category">filter by category</label>
             <select
               onChange={handleCategoryChange}
               name="category"
               id="category"
-              className="border p-1 rounded capitalize"
+              className="border p-1 rounded capitalize max-h-40 overflow-y-scroll"
             >
               <option value="all" defaultValue={"all"}>
                 all
@@ -76,8 +76,8 @@ function Products() {
               ))}
             </select>
           </div>
-          <div className="flex items-center gap-2 capitalize">
-            search by title
+          <div className="flex items-center gap-2 capitalize -z-10">
+            <label htmlFor="search">search by title</label>
             <form
               method="POST"
               onSubmit={handleSearchSubmit}
@@ -93,7 +93,7 @@ function Products() {
               />
               <FaTimes
                 onClick={() => setSearchValue("")}
-                className={`cursor-pointer absolute right-10 text-base ${ 
+                className={`cursor-pointer absolute right-10 text-base ${
                   searchValue == "" && "hidden"
                 }`}
               />
@@ -104,13 +104,11 @@ function Products() {
           </div>
         </div>
       </div>
-      {
-        currProducts.length > 0 ? (
-          <AllProducts products={currProducts} />
-        ) : (
-          <h1 className="text-center text-3xl font-bold">No products found</h1>
-        )
-      }
+      {currProducts.length > 0 ? (
+        <AllProducts products={currProducts} />
+      ) : (
+        <h1 className="text-center text-3xl font-bold">No products found</h1>
+      )}
       <div className="flex items-center justify-center gap-4 py-3 font-semibold">
         <button
           disabled={page == 0}
@@ -138,7 +136,8 @@ function Products() {
         <button
           disabled={page == Math.ceil(allProducts.length / limit) - 1}
           className={`border h-10 w-10 capitalize ${
-            (page == Math.ceil(allProducts.length / limit) - 1 || allProducts.length == 0) &&
+            (page == Math.ceil(allProducts.length / limit) - 1 ||
+              allProducts.length == 0) &&
             "hidden"
           } `}
           onClick={() => handleClick(page + 1)}

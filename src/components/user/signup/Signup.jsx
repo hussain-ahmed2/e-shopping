@@ -6,6 +6,7 @@ function Signup() {
     name: "",
     email: "",
     password: "",
+    cart: [],
   });
   const [error, setError] = useState({
     pwd: false,
@@ -41,7 +42,7 @@ function Signup() {
 
   return (
     <div
-      className={`fixed top-0 flex justify-center items-center flex-col h-screen w-full px-5 visible transition-all duration-300 backdrop-blur-sm ${
+      className={`fixed top-0 flex justify-center items-center flex-col h-screen w-full px-5 visible transition-all duration-300 backdrop-blur-sm z-50 ${
         display && "invisible"
       }`}
     >

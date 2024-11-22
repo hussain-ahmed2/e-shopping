@@ -11,7 +11,7 @@ const AllProducts = ({ products }) => {
         return (
           <Link
             to={`/products/${id}`}
-            className="flex flex-col shadow rounded p-3"
+            className="flex flex-col shadow rounded p-3 hover:bg-slate-200 transition-colors duration-300"
             key={id}
           >
             <img
