@@ -35,7 +35,7 @@ function Login() {
 
   return (
     <div
-      className={`absolute flex justify-center items-center flex-col h-screen w-full px-5 visible transition-all duration-300 ${
+      className={`fixed top-0 flex justify-center items-center flex-col h-screen w-full px-5 visible transition-all duration-300 backdrop-blur-sm ${
         display && "invisible"
       }`}
     >
