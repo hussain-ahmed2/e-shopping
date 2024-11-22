@@ -1,6 +1,7 @@
+import UserContext from "../user/UserConext";
 import AllProducts from "./AllProducts";
 import useProduct from "./useProduct";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 
 function Products() {
@@ -17,6 +18,8 @@ function Products() {
     categories,
     searchProduct,
   } = useProduct();
+
+  const {display} = useContext(UserContext);
 
   const [searchValue, setSearchValue] = useState("");
 
@@ -76,12 +79,12 @@ function Products() {
               ))}
             </select>
           </div>
-          <div className="flex items-center gap-2 capitalize -z-10">
+          <div className={`flex items-center gap-2 capitalize`}>
             <label htmlFor="search">search by title</label>
             <form
               method="POST"
               onSubmit={handleSearchSubmit}
-              className="flex items-center justify-center relative"
+              className={`flex items-center justify-center relative ${!display && '-z-10'}`}
             >
               <input
                 type="text"
