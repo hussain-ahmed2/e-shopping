@@ -4,7 +4,7 @@ import CartProduct from "./CartProduct";
 
 const Cart = () => {
   const { cart } = useContext(UserContext);
-
+  
   return (
     <div>
       <h1 className="text-3xl font-semibold text-center mb-5">Cart</h1>

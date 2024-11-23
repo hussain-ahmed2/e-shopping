@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import UserContext from "../UserConext";
+import UserContext from "../UserConext"; 
 
 function Login() {
   const [userData, setUserData] = useState({
@@ -10,7 +10,7 @@ function Login() {
     email: false,
     pwd: false,
   });
-  const { setUser, validateUser, setAccount, display, setDisplay } =
+  const { setUser, validateUser, setAccount, display, setDisplay, setCart } =
     useContext(UserContext);
 
   function handleSubmit(event) {
@@ -19,6 +19,7 @@ function Login() {
 
     if (registered.status.email && registered.status.password) {
       setUser(registered.currUser);
+      setCart(registered.currUser.cart || []);
     } else if (registered.status.email && !registered.status.password) {
       setError((prev) => ({ ...prev, pwd: true }));
     } else {
@@ -31,6 +32,10 @@ function Login() {
       ...prev,
       [event.target.name]: event.target.value,
     }));
+  }
+
+  function clearError(field) {
+    setError((prev) => ({ ...prev, [field]: false }));
   }
 
   return (
@@ -53,13 +58,13 @@ function Login() {
         </p>
         <form className="flex flex-col" method="post" onSubmit={handleSubmit}>
           <label className="flex justify-between" htmlFor="email">
-            Email{" "}
+            Email
             <span
-              className={` text-red-500 ${
+              className={`text-red-500 ${
                 error.email ? "visible" : "invisible"
               }`}
             >
-              email is not registered
+              Email is not registered
             </span>
           </label>
           <input
@@ -67,21 +72,21 @@ function Login() {
               error.email && "border-red-500"
             }`}
             id="email"
-            onChange={(event) =>
-              handleChange(event) &
-              setError((prev) => ({ ...prev, email: false }))
-            }
+            onChange={(event) => {
+              handleChange(event);
+              clearError("email");
+            }}
             type="email"
             required
             name="email"
             placeholder="Enter your email"
           />
           <label className="flex justify-between" htmlFor="password">
-            Password{" "}
+            Password
             <span
               className={`text-red-500 ${error.pwd ? "visible" : "invisible"}`}
             >
-              password did not match
+              Password did not match
             </span>
           </label>
           <input
@@ -89,10 +94,10 @@ function Login() {
               error.pwd && "border-red-500"
             }`}
             id="password"
-            onChange={(event) =>
-              handleChange(event) &
-              setError((prev) => ({ ...prev, pwd: false }))
-            }
+            onChange={(event) => {
+              handleChange(event);
+              clearError("pwd");
+            }}
             type="password"
             required
             name="password"
@@ -107,12 +112,12 @@ function Login() {
         </form>
 
         <p className="text-center mt-2">
-          don{"'"}t have any account, please{" "}
+          Don{"'"}t have an account?{" "}
           <span
             className="font-semibold hover:underline text-blue-500 hover:text-emerald-500 cursor-pointer"
             onClick={() => setAccount((prev) => !prev)}
           >
-            register
+            Register
           </span>
         </p>
       </div>

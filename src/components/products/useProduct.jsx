@@ -30,7 +30,7 @@ function useProduct() {
     for (let i = 0; i < products.length; i++) {
       if (
         products[i].title.toLowerCase().includes(search.toLowerCase()) ||
-        products[i].tags.toLowerCase().includes(search.toLowerCase())
+        products[i].tags.find((tag) => tag.toLowerCase().includes(search))
       ) {
         data.push(products[i]);
       }
@@ -67,7 +67,7 @@ function useProduct() {
       .sort((a, b) => a.rating - b.rating)
       .filter(el=> el.category === "groceries").filter((_, index) => index < 4)
   );
-  console.log(topGroceries);
+  
   return {
     currProducts,
     setCurrProducts,

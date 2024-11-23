@@ -8,7 +8,16 @@ function Home() {
 
   return (
     <div className="">
-      <h2 className="text-center text-3xl font-semibold">Welcome to E-Shop</h2>
+      <div className="text-center py-8">
+        <h2 className="text-3xl font-semibold mb-4">Welcome to E-Shop</h2>
+        <p className="text-lg mb-4">
+          Your one-stop online store for the best deals on the latest products.
+        </p>
+        <p className="text-lg mb-8">
+          Explore top-rated products, exciting new arrivals, and exclusive
+          offers across all categories!
+        </p>
+      </div>
       <div>
         <p className="text-xl my-3">Our top products</p>
         <div>

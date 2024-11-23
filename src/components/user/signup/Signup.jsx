@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import UserContext from "../UserConext";
+import UserContext from "../UserConext"; 
 
 function Signup() {
   const [userData, setUserData] = useState({
@@ -16,28 +16,33 @@ function Signup() {
   const { setUser, setUsers, findUser, setAccount, setDisplay, display } =
     useContext(UserContext);
 
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    if (event.target.cpassword.value === userData.password) {
-      let registered = findUser(userData);
-
-      if (!registered) {
-        setUser(userData);
-        setUsers((prev) => [...prev, userData]);
-      } else {
-        setError((prev) => ({ ...prev, email: true }));
-      }
-    } else {
-      setError((prev) => ({ ...prev, pwd: true }));
-    }
-  }
-
   function handleChange(event) {
     setUserData((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
     }));
+    if (error.email) setError((prev) => ({ ...prev, email: false }));
+    if (error.pwd) setError((prev) => ({ ...prev, pwd: false }));
+  }
+
+  // Submit handler
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    // Check if passwords match
+    if (userData.password !== event.target.cpassword.value) {
+      setError((prev) => ({ ...prev, pwd: true }));
+      return;
+    }
+
+    // Check if user already exists
+    const registered = findUser(userData);
+    if (registered) {
+      setError((prev) => ({ ...prev, email: true }));
+    } else {
+      setUser(userData);
+      setUsers((prev) => [...prev, userData]);
+    }
   }
 
   return (
@@ -59,6 +64,7 @@ function Signup() {
         >
           &times;
         </p>
+
         <form className="flex flex-col" method="post" onSubmit={handleSubmit}>
           <label htmlFor="name">Name</label>
           <input
@@ -70,22 +76,20 @@ function Signup() {
             onChange={handleChange}
             className="border-2 border-neutral-300 focus:outline-blue-500 px-3 py-1 rounded"
           />
+
           <label htmlFor="email" className="flex justify-between">
-            Email{" "}
+            Email
             <span
-              className={` text-red-500 ${
+              className={`text-red-500 ${
                 error.email ? "visible" : "invisible"
               }`}
             >
-              email already exists
+              Email already exists
             </span>
           </label>
           <input
             id="email"
-            onChange={(event) => {
-              handleChange(event);
-              if (error.email) setError((prev) => ({ ...prev, email: false }));
-            }}
+            onChange={handleChange}
             type="email"
             required
             name="email"
@@ -94,6 +98,7 @@ function Signup() {
               error.email && "border-red-500"
             }`}
           />
+
           <label htmlFor="password">Password</label>
           <input
             id="password"
@@ -102,14 +107,15 @@ function Signup() {
             required
             name="password"
             placeholder="Enter your password"
-            className={`border-2 border-neutral-300 focus:outline-blue-500 px-3 py-1 rounded`}
+            className="border-2 border-neutral-300 focus:outline-blue-500 px-3 py-1 rounded"
           />
+
           <label htmlFor="cpassword" className="flex justify-between">
-            Confirm Password{" "}
+            Confirm Password
             <span
-              className={` text-red-500 ${error.pwd ? "visible" : "invisible"}`}
+              className={`text-red-500 ${error.pwd ? "visible" : "invisible"}`}
             >
-              password did not match
+              Passwords did not match
             </span>
           </label>
           <input
@@ -121,29 +127,29 @@ function Signup() {
             className={`border-2 border-neutral-300 focus:outline-blue-500 px-3 py-1 rounded ${
               error.pwd && "border-red-500"
             }`}
-            onChange={() =>
-              error.pwd && setError((prev) => ({ ...prev, pwd: !error.pwd }))
-            }
+            onChange={handleChange}
           />
+
           <button
             className="border mt-3 py-1 rounded bg-blue-500 text-white hover:bg-emerald-500 transition-colors"
             type="submit"
           >
-            SignUp
+            Sign Up
           </button>
         </form>
 
         <p className="text-center mt-2">
-          already have a account, please{" "}
+          Already have an account?{" "}
           <span
             className="font-semibold hover:underline text-blue-500 hover:text-emerald-500 cursor-pointer"
             onClick={() => setAccount((prev) => !prev)}
           >
-            login
+            Login
           </span>
         </p>
       </div>
     </div>
   );
 }
+
 export default Signup;

@@ -1,11 +1,12 @@
 import proptypes from "prop-types";
 import { useContext } from "react";
 import UserContext from "../user/UserConext";
-import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
+import { FaMinus, FaPlus, FaTrash } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 function CartProduct({ product }) {
     const { handleQuantityIncrement, handleQuantityDecrement, handleCartRemove } = useContext(UserContext);
+
   return (
     <tr className="text-center border-t">
       <td>
@@ -25,13 +26,6 @@ function CartProduct({ product }) {
       <td>
         <div className="flex items-center gap-1 justify-center">
           <button
-            className={`hover:text-emerald-500 px-2 py-1 rounded-md `}
-            onClick={() => handleQuantityIncrement(product.id)}
-          >
-            <FaPlus />
-          </button>
-          {product.quantity}
-          <button
             disabled={product.quantity <= 1}
             className={`hover:text-rose-500 px-2 py-1 rounded-md ${
               product.quantity <= 1 && "opacity-50"
@@ -40,9 +34,16 @@ function CartProduct({ product }) {
           >
             <FaMinus />
           </button>
+          {product.quantity}
+          <button
+            className={`hover:text-emerald-500 px-2 py-1 rounded-md `}
+            onClick={() => handleQuantityIncrement(product.id)}
+          >
+            <FaPlus />
+          </button>
         </div>
       </td>
-      <td>${product.price * product.quantity}</td>
+      <td>${(product.price * product.quantity).toFixed(2)}</td>
       <td>
         <button
           className="hover:text-rose-500 px-2 py-1 rounded-md"
