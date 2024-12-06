@@ -29,6 +29,11 @@ function App() {
     handleCartRemove,
     handleQuantityIncrement,
     handleQuantityDecrement,
+    wishlist,
+    setWishlist,
+    handleWishlist,
+    wishlistOpen,
+    setWishlistOpen
   } = useUser();
 
   return (
@@ -50,6 +55,11 @@ function App() {
         handleCartRemove,
         handleQuantityIncrement,
         handleQuantityDecrement,
+        wishlist,
+        setWishlist,
+        handleWishlist,
+        wishlistOpen,
+        setWishlistOpen
       }}
     >
       <BrowserRouter>

@@ -1,31 +1,41 @@
 import { useContext, useEffect, useState } from "react";
+import { FaHeart } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
 import UserContext from "../user/UserConext";
 import { NavLink } from "react-router-dom";
 import { CiMenuFries } from "react-icons/ci";
 import { BsCart2 } from "react-icons/bs";
+import Wishlist from "../wishlist/Wishlist";
 
 export default function Header() {
-  const { user, setUser, setAccount, setDisplay, account, cart, setCart } =
-    useContext(UserContext);
+  const {
+    user,
+    setUser,
+    setAccount,
+    setDisplay,
+    account,
+    cart,
+    setCart,
+    wishlist
+  } = useContext(UserContext);
 
   const [mobileMenu, setMobileMenu] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  // Handle logout
+  
   function handleClick() {
     setUser({});
     setCart([]);
     setAccount(true);
   }
 
-  // Update `isMobile` dynamically on resize
+  
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
-    handleResize(); // Set initial value
+    handleResize(); 
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -36,7 +46,7 @@ export default function Header() {
   return (
     <header className="fixed top-0 w-full border-b-2 bg-white z-50">
       <nav className="flex justify-between px-4 items-center min-h-16 max-w-screen-xl mx-auto">
-        {/* Logo */}
+        
         <NavLink
           className="text-2xl font-bold text-emerald-500"
           to={"/"}
@@ -45,7 +55,6 @@ export default function Header() {
           E-Shop
         </NavLink>
 
-        {/* Navigation Links */}
         <div
           className={`flex md:items-center text-center md:gap-10 text-blue-500 font-semibold md:flex-row flex-col max-md:absolute top-16 bg-white right-0 w-full md:w-auto border-b-2 md:border-b-0 transition-all duration-300 overflow-hidden ${
             isMobile ? (mobileMenu ? "h-36" : "h-0") : "h-auto"
@@ -86,9 +95,22 @@ export default function Header() {
           </NavLink>
         </div>
 
-        {/* Right-Side Buttons */}
-        <div className="flex items-center gap-2 z-20">
-          {/* Cart Icon */}
+        <div className="flex items-center gap-3 z-20">
+          
+          <div className={`cursor-pointer hover:text-red-500 relative group`}>
+            <FaHeart className="text-2xl cursor-pointer hover:text-red-500" />
+            {wishlist.length > 0 && (
+              <span className="absolute -top-3 text-[12px] -right-2 border rounded-full h-4 w-4 flex justify-center items-center bg-red-500 text-white">
+                {wishlist.length}
+              </span>
+            )}
+            {wishlist.length > 0 && <div className="group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 opacity-0 transition-all invisible fixed translate-y-6 duration-300 top-10 right-0 md:right-5 bg-white border px-2 py-1 z-10">
+              <h2 className="text-xl capitalize font-semibold text-center">wishlist</h2>
+              <Wishlist wishlist={wishlist} />
+            </div>}
+          </div>
+
+          
           <NavLink
             to="/cart"
             className={({ isActive }) =>
@@ -105,7 +127,7 @@ export default function Header() {
             )}
           </NavLink>
 
-          {/* User Account/Logout */}
+          
           {user.email ? (
             <div className="border-neutral-500 rounded-full relative grid place-content-center group">
               <FaUserCircle className="hover:text-emerald-500 transition-colors text-2xl" />
@@ -133,7 +155,7 @@ export default function Header() {
             </button>
           )}
 
-          {/* Mobile Menu Icon */}
+          
           <div
             className="md:hidden cursor-pointer"
             onClick={() => setMobileMenu((prev) => !prev)}

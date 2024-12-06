@@ -9,7 +9,7 @@ import { FaPlus, FaMinus } from "react-icons/fa6";
 const Product = () => {
   const { productId } = useParams();
   const product = products.filter((el) => el.id == productId);
-  const { handleCart, cart } =
+  const { handleCart, cart, wishlist, handleWishlist } =
     useContext(UserContext);
   const [quantity, setQuantity] = useState(1);
 
@@ -20,7 +20,9 @@ const Product = () => {
           <ImageSlider images={el.images} title={el.title} />
           <div className="flex flex-col gap-5">
             <h1 className="md:text-3xl text-xl font-semibold">{el.title}</h1>
-            <h2 className="md:text-2xl text-lg font-semibold">Price: ${el.price} </h2>
+            <h2 className="md:text-2xl text-lg font-semibold">
+              Price: ${el.price}{" "}
+            </h2>
             <div className="flex items-center gap-2">
               Rating: <StarRating starCount={el.rating} />
             </div>
@@ -45,6 +47,20 @@ const Product = () => {
                   <FaPlus />
                 </button>
               </div>
+            </div>
+            <div>
+              <button
+                className={`text-white px-4 py-2 rounded-md ${
+                  wishlist.find((p) => p.id === el.id)
+                    ? "bg-rose-500"
+                    : "bg-neutral-500"
+                }`}
+                onClick={() => handleWishlist(el)}
+              >
+                {wishlist.find((p) => p.id === el.id)
+                  ? "Remove from wishlist"
+                  : "Add to wishlist"}
+              </button>
             </div>
             <div>
               <button

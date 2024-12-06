@@ -12,6 +12,7 @@ export default function useUser() {
       {}
   );
   const [cart, setCart] = useState(user.cart || []);
+  const [wishlist, setWishlist] = useState([]);
   const [account, setAccount] = useState(true);
   const [display, setDisplay] = useState(true);
 
@@ -64,6 +65,17 @@ export default function useUser() {
     );
   }
 
+  // Handle wishlist update
+  function handleWishlist(product) {
+    setWishlist((prev) => {
+      const existingProduct = prev.find((p) => p.id === product.id);
+      if (existingProduct) {
+        return prev.filter((p) => p.id !== product.id);
+      }
+      return [...prev, product];
+    });
+  }
+
   // Sync cart and user data with localStorage
   useEffect(() => {
     localStorage.setItem("eUsers", JSON.stringify(users));
@@ -82,6 +94,15 @@ export default function useUser() {
     }
   }, [cart, user.email]);
 
+  useEffect(() => {
+    if (wishlist !== user.wishlist) {
+      setUser((prev) => ({ ...prev, wishlist }));
+      setUsers((prev) =>
+        prev.map((u) => (u.email === user.email ? { ...u, wishlist } : u))
+      );
+    }
+  }, [wishlist, user.email]);
+
   return {
     users,
     setUsers,
@@ -99,5 +120,8 @@ export default function useUser() {
     handleCartRemove,
     handleQuantityIncrement,
     handleQuantityDecrement,
+    wishlist,
+    setWishlist,
+    handleWishlist,
   };
 }
